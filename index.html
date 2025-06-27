@@ -1,51 +1,105 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>faculdade</title>
-
+  <meta charset="UTF-8">
+  <title>Biblioteca</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Biblioteca</h1>
-    </header>
-    <section>
-        <form action="" method="get">
-            <label for="Nome">Nome</label>
-            <input type="text" name="Nome" id="idNome">
 
-            <label for="Sobrenome">Sobrenome</label>
-            <input type="text" name="Sobrenome" id="idSobrenome">
+<section>
+  <form id="formulario">
+    <label for="idNome">Nome</label>
+    <input type="text" id="idNome" required>
 
-            <label for="Endereço">Endereço</label>
-            <input type="text" name="Endereço" id="idEndereço">
+    <label for="idSobrenome">Sobrenome</label>
+    <input type="text" id="idSobrenome" required>
 
-            <label for="n°casa">n°casa</label>
-            <input type="number" name="n°casa" id="idn°casa">
-            
+    <label for="idEndereço">Endereço</label>
+    <input type="text" id="idEndereço" required>
 
-            <label for="bairro">bairro</label>
-            <input type="text" name="bairro" id="idbairro">
+    <label for="idn°casa">n° casa</label>
+    <input type="number" id="idn°casa" required>
 
-            <label for="E-mail">E-mail</label>
-            <input type="email" name="E-mail" id="idE-mail">
+    <label for="idbairro">Bairro</label>
+    <input type="text" id="idbairro" required>
 
-            <label for="Celular">Celular</label>
-            <input type="number" name="Celular" id="idCelular">
-            
+    <label for="idE-mail">E-mail</label>
+    <input type="email" id="idE-mail" required>
 
-            <label for="nome do livro">Nome Do Livro</label>
-            <input type="text" name="nomedolivro" id="idnomedolivro">
+    <label for="idCelular">Celular</label>
+    <input type="number" id="idCelular" required>
 
-            <label for="CódicoDoLivro">Códico Do Livro</label>
-            <input type="number" name="CódicoDoLivro" id="idCódicoDoLivro">
+    <label for="idnomedolivro">Nome do Livro</label>
+    <input type="text" id="idnomedolivro" required>
+
+    <label for="idCódicoDoLivro">Código do Livro</label>
+    <input type="number" id="idCódicoDoLivro" required>
+
+    <input type="submit" value="Enviar">
+  </form>
+</section>
+
+<section>
+  <h1 id="cupon"></h1>
+</section>
+
+<script>
+  // Espera o envio do formulário
+  document.getElementById("formulario").addEventListener("submit", function(event) {
+    event.preventDefault(); // Impede o envio real da página
+
+    // Coleta os valores após o clique
+    let nome = document.getElementById("idNome").value;
+    let sobrenome = document.getElementById("idSobrenome").value;
+    let endereco = document.getElementById("idEndereço").value;
+    let numeroCasa = document.getElementById("idn°casa").value;
+    let bairro = document.getElementById("idbairro").value;
+    let email = document.getElementById("idE-mail").value;
+    let celular = document.getElementById("idCelular").value;
+    let nomeLivro = document.getElementById("idnomedolivro").value;
+    let codigoLivro = document.getElementById("idCódicoDoLivro").value;
+
+    // Monta o texto com as variáveis preenchidas
+    let mensagem = "Eu, " + nome + " " + sobrenome +
+      ", residente à " + endereco + ", nº " + numeroCasa + ", bairro " + bairro +
+      ", declaro que retirei o livro descrito abaixo, sob minha responsabilidade. " +
+      "Para fins de contato, informo meu e-mail: " + email +
+      " e meu número de celular: " + celular + ".\n\n" +
+      "Livro Retirado: Título: " + nomeLivro + " | Código: " + codigoLivro +
+      ".\nComprometo-me a conservar o material e devolvê-lo dentro do prazo estabelecido.\n\n" +
+      "Data da Retirada: __/__/____\nAssinatura do Leitor: ____________________";
+
+    // Exibe o texto na tela
+    document.getElementById("cupon").innerText = mensagem;
+  });
+
+  function imprimirCupom() {
+    const conteudo = document.getElementById("cupon").innerText;
+
+    // Abre uma nova janela com o conteúdo e manda imprimir
+    const janela = window.open('', '', 'width=800,height=600');
+    janela.document.write(`
+      <html>
+        <head>
+          <title>Cupom de Retirada</title>
+          <style>
+            body { font-family: Arial; padding: 30px; }
+          </style>
+        </head>
+        <body>
+          <pre>${conteudo}</pre>
+        </body>
+      </html>
+    `);
+    janela.document.close();
+    janela.print();
+  }
+</script>
 
 
-            <input type="submit" value="enviar">
-        </form>
-    </section>
-    
 </body>
 </html>
+
+
+
