@@ -4,8 +4,43 @@
   <meta charset="UTF-8">
   <title>Biblioteca</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    label, input {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #cupon {
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      background-color: #f9f9f9;
+      white-space: pre-line;
+    }
+
+    /* Oculta tudo na impressão, exceto o cupom */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #cupon, #cupon * {
+        visibility: visible;
+      }
+      #cupon {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 20px;
+        border: none;
+        background: none;
+      }
+    }
+  </style>
 </head>
 <body>
+
+<h2>Biblioteca</h2>
 
 <section>
   <form id="formulario">
@@ -42,14 +77,15 @@
 
 <section>
   <h1 id="cupon"></h1>
+  <!-- Botão de impressão -->
+  <button onclick="imprimirCupom()">Imprimir Cupom</button>
 </section>
 
 <script>
-  // Espera o envio do formulário
+  // Gera o texto do cupom ao enviar
   document.getElementById("formulario").addEventListener("submit", function(event) {
-    event.preventDefault(); // Impede o envio real da página
+    event.preventDefault();
 
-    // Coleta os valores após o clique
     let nome = document.getElementById("idNome").value;
     let sobrenome = document.getElementById("idSobrenome").value;
     let endereco = document.getElementById("idEndereço").value;
@@ -60,43 +96,28 @@
     let nomeLivro = document.getElementById("idnomedolivro").value;
     let codigoLivro = document.getElementById("idCódicoDoLivro").value;
 
-    // Monta o texto com as variáveis preenchidas
-    let mensagem = "Eu, " + nome + " " + sobrenome +
-      ", residente à " + endereco + ", nº " + numeroCasa + ", bairro " + bairro +
-      ", declaro que retirei o livro descrito abaixo, sob minha responsabilidade. " +
-      "Para fins de contato, informo meu e-mail: " + email +
-      " e meu número de celular: " + celular + ".\n\n" +
-      "Livro Retirado: Título: " + nomeLivro + " | Código: " + codigoLivro +
-      ".\nComprometo-me a conservar o material e devolvê-lo dentro do prazo estabelecido.\n\n" +
-      "Data da Retirada: __/__/____\nAssinatura do Leitor: ____________________";
+    let mensagem = `Eu, ${nome} ${sobrenome}, residente à ${endereco}, nº ${numeroCasa}, bairro ${bairro},
+declaro que retirei o livro descrito abaixo, sob minha responsabilidade.
 
-    // Exibe o texto na tela
+Para fins de contato, informo meu e-mail: ${email} e meu número de celular: ${celular}.
+
+Livro Retirado:
+Título: ${nomeLivro}
+Código: ${codigoLivro}
+
+Comprometo-me a conservar o material e devolvê-lo dentro do prazo estabelecido.
+
+Data da Retirada: __/__/____
+Assinatura do Leitor: ____________________`;
+
     document.getElementById("cupon").innerText = mensagem;
   });
 
+  // Imprime apenas o cupom
   function imprimirCupom() {
-    const conteudo = document.getElementById("cupon").innerText;
-
-    // Abre uma nova janela com o conteúdo e manda imprimir
-    const janela = window.open('', '', 'width=800,height=600');
-    janela.document.write(`
-      <html>
-        <head>
-          <title>Cupom de Retirada</title>
-          <style>
-            body { font-family: Arial; padding: 30px; }
-          </style>
-        </head>
-        <body>
-          <pre>${conteudo}</pre>
-        </body>
-      </html>
-    `);
-    janela.document.close();
-    janela.print();
+    window.print();
   }
 </script>
-
 
 </body>
 </html>
